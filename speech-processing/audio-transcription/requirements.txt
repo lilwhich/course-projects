@@ -1,0 +1,6 @@
+faster-whisper>=1.0.0
+av<19
+
+# 可选：使用 --mic 现场录麦克风时才需要
+# sounddevice
+# numpy

@@ -1,0 +1,25 @@
+# 人脸模型：体积大，按 README 自行下载到 models/
+models/
+*.onnx
+*.part
+
+# 运行时数据：人脸库、事件账本、抓拍图，一律不进版本库
+data/
+*.db
+*.db-journal
+*.npz
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

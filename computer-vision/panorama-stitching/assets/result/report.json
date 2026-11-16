@@ -1,0 +1,324 @@
+{
+  "inputs": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "9.jpg"
+  ],
+  "scale": 0.5,
+  "manual": {
+    "method": "manual (SIFT/ORB + ratio test + RANSAC + warpPerspective + feather blend)",
+    "detector": "sift",
+    "nfeatures": 10000,
+    "ratio": 0.75,
+    "ransac_thresh_px": 5.0,
+    "transform_model": "auto",
+    "models_used": [
+      "homography"
+    ],
+    "blend": "gcut",
+    "exposure_compensation": true,
+    "scale": 0.5,
+    "reference_image": "5.jpg",
+    "canvas": [
+      6099,
+      2702
+    ],
+    "output_size": [
+      5796,
+      2004
+    ],
+    "elapsed_sec": 77.39,
+    "images": [
+      {
+        "name": "1.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 5258
+      },
+      {
+        "name": "2.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 3691
+      },
+      {
+        "name": "3.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 3969
+      },
+      {
+        "name": "4.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1841
+      },
+      {
+        "name": "5.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1535
+      },
+      {
+        "name": "6.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1324
+      },
+      {
+        "name": "7.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1295
+      },
+      {
+        "name": "8.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1389
+      },
+      {
+        "name": "9.jpg",
+        "size": [
+          1424,
+          2048
+        ],
+        "keypoints": 1729
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "1.jpg -> 2.jpg",
+        "good_matches": 695,
+        "ransac_inliers": 353,
+        "inlier_ratio": 0.5079,
+        "model": "homography",
+        "transform_scale": 1.0374,
+        "H": [
+          [
+            1.04672,
+            -0.0126,
+            -617.68935
+          ],
+          [
+            0.02877,
+            1.02789,
+            -39.02493
+          ],
+          [
+            2e-05,
+            1e-05,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "2.jpg -> 3.jpg",
+        "good_matches": 417,
+        "ransac_inliers": 158,
+        "inlier_ratio": 0.3789,
+        "model": "homography",
+        "transform_scale": 1.0201,
+        "H": [
+          [
+            1.0355,
+            0.00988,
+            -583.51736
+          ],
+          [
+            0.06641,
+            1.00554,
+            -57.23438
+          ],
+          [
+            3e-05,
+            -2e-05,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "3.jpg -> 4.jpg",
+        "good_matches": 383,
+        "ransac_inliers": 163,
+        "inlier_ratio": 0.4256,
+        "model": "homography",
+        "transform_scale": 1.0311,
+        "H": [
+          [
+            1.02747,
+            -0.01798,
+            -506.68795
+          ],
+          [
+            0.04958,
+            1.03385,
+            -57.26126
+          ],
+          [
+            2e-05,
+            1e-05,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "4.jpg -> 5.jpg",
+        "good_matches": 531,
+        "ransac_inliers": 325,
+        "inlier_ratio": 0.6121,
+        "model": "homography",
+        "transform_scale": 1.0479,
+        "H": [
+          [
+            1.05849,
+            -0.01652,
+            -443.31646
+          ],
+          [
+            0.0902,
+            1.03594,
+            -80.1114
+          ],
+          [
+            5e-05,
+            -1e-05,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "5.jpg -> 6.jpg",
+        "good_matches": 458,
+        "ransac_inliers": 311,
+        "inlier_ratio": 0.679,
+        "model": "homography",
+        "transform_scale": 1.029,
+        "H": [
+          [
+            1.02397,
+            -0.02583,
+            -469.50759
+          ],
+          [
+            0.04471,
+            1.03302,
+            -55.32535
+          ],
+          [
+            1e-05,
+            1e-05,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "6.jpg -> 7.jpg",
+        "good_matches": 543,
+        "ransac_inliers": 432,
+        "inlier_ratio": 0.7956,
+        "model": "homography",
+        "transform_scale": 0.994,
+        "H": [
+          [
+            1.00043,
+            -0.01927,
+            -354.26009
+          ],
+          [
+            0.02908,
+            0.98696,
+            -12.32356
+          ],
+          [
+            1e-05,
+            -0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "7.jpg -> 8.jpg",
+        "good_matches": 380,
+        "ransac_inliers": 280,
+        "inlier_ratio": 0.7368,
+        "model": "homography",
+        "transform_scale": 1.0093,
+        "H": [
+          [
+            1.01571,
+            -0.00365,
+            -417.01533
+          ],
+          [
+            0.01326,
+            1.00296,
+            1.84958
+          ],
+          [
+            1e-05,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "pair": "8.jpg -> 9.jpg",
+        "good_matches": 475,
+        "ransac_inliers": 303,
+        "inlier_ratio": 0.6379,
+        "model": "homography",
+        "transform_scale": 1.0103,
+        "H": [
+          [
+            1.01237,
+            -0.03904,
+            -275.93597
+          ],
+          [
+            0.04687,
+            1.0064,
+            -32.18474
+          ],
+          [
+            2e-05,
+            -0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "output_file": "output/final\\pano_manual.jpg"
+  },
+  "opencv_stitcher": {
+    "status": "OK",
+    "elapsed_sec": 6.44,
+    "output_file": "output/final\\pano_opencv.jpg",
+    "output_size": [
+      5294,
+      2066
+    ]
+  }
+}

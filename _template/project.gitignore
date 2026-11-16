@@ -1,0 +1,47 @@
+# 依赖与缓存
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 大体积第三方模型（README 写明下载方式与校验值）
+models/
+*.onnx
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# 运行时数据：数据库、日志、缓存、发现记录
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+__discovered__/
+
+# 采集到的人脸底库与特征文件（绝不入库）
+faces/
+embeddings/
+*.npz
+
+# 录音、视频、原始素材（体积大，按需自行录制）
+*.m4a
+*.mp3
+*.wav
+*.mp4
+*.avi
+*.mov
+raw/
+
+# 输出产物
+output/
+out/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

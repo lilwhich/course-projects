@@ -1,0 +1,323 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>进出统计 · classroom-cv</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#14161b; --panel:#1b1e25; --panel2:#20242c; --line:#2a3040;
+  --fg:#e6e8eb; --muted:#8b93a1; --accent:#5b9dff;
+  --good:#97c459; --warn:#e0b060; --bad:#f09595;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);padding:20px 24px 40px;
+  font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+a{color:var(--accent);text-decoration:none;font-size:12.5px}
+a:hover{text-decoration:underline}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:18px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--muted);font-size:12px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button{background:#1f2937;color:#dbe3f0;border:1px solid #374151;border-radius:8px;
+  padding:6px 12px;font-size:12.5px;cursor:pointer}
+button:hover{border-color:var(--accent);color:#fff}
+button.ghost{background:transparent}
+input[type=date]{background:#1f2937;color:#dbe3f0;border:1px solid #374151;border-radius:8px;
+  padding:5px 9px;font-size:12.5px;font-family:inherit}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.75);cursor:pointer}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.kpi .k{color:var(--muted);font-size:12px;margin-bottom:4px}
+.kpi .v{font-size:26px;font-weight:500;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi .u{font-size:12px;color:var(--muted);margin-left:3px;font-weight:400}
+.kpi.hl .v{color:var(--good)}
+.kpi.warn .v{color:var(--warn)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media(max-width:1000px){.cols{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.panel h2{font-size:13px;font-weight:500;margin:0;padding:11px 14px;background:var(--panel2);
+  border-bottom:1px solid var(--line);color:#c8ccd4;display:flex;justify-content:space-between;gap:10px}
+.panel h2 span{color:var(--muted);font-weight:400;font-size:12px}
+.body{padding:10px 14px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{color:var(--muted);font-weight:400;text-align:left;padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:6px;border-bottom:1px solid #22262f;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-size:12.5px;padding:18px 4px;text-align:center}
+.bars{display:flex;align-items:flex-end;gap:3px;height:110px;padding:6px 0 0}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:1px;height:100%}
+.bar i{display:block;background:var(--good);border-radius:2px 2px 0 0;min-height:0}
+.bar b{display:block;background:var(--bad);border-radius:2px 2px 0 0}
+.xaxis{display:flex;gap:3px;margin-top:4px}
+.xaxis span{flex:1;text-align:center;font-size:9px;color:var(--muted)}
+.legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted);padding:8px 0 0}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.curve{height:118px;padding:6px 0 0}
+.curve svg{width:100%;height:100%;display:block}
+.feed{max-height:430px;overflow:auto}
+.feed.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;max-height:none}
+@media(max-width:900px){.feed.grid2{grid-template-columns:1fr}}
+.ev{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid #22262f}
+.ev img,.ev .ph{width:44px;height:44px;border-radius:7px;object-fit:cover;background:#0f1115;flex:0 0 auto}
+.ev .ph{border:1px dashed var(--line)}
+.ev .t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;width:60px;flex:0 0 auto}
+.ev .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ev .s{color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid}
+.tag.in{color:var(--good);border-color:#3f5a33;background:#1d2a19}
+.tag.out{color:var(--bad);border-color:#5a3333;background:#2a1919}
+.tag.un{color:var(--warn);border-color:#5a4a33;background:#2a2319}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-right:6px}
+.dot.off{background:var(--bad)}
+.banner{background:#2a2319;border:1px solid #5a4a33;color:var(--warn);border-radius:10px;
+  padding:8px 13px;font-size:12.5px;margin-bottom:14px;display:none}
+.banner.on{display:block}
+</style>
+
+<header>
+  <div>
+    <h1>教室进出统计</h1>
+    <div class="sub">主电脑 <b>@HOST@</b> · 查看 <b id="dayLabel">@DAY@</b> · 数据每 2 秒刷新
+      · <a href="/both">双画面</a> · <a href="/cameras">摄像头</a></div>
+  </div>
+  <div class="tools">
+    <span class="sub" id="beat"><span class="dot"></span>连接中</span>
+    <button class="ghost" onclick="shift(-1)">← 前一天</button>
+    <input type="date" id="day" value="@DAY@" onchange="setDay(this.value)">
+    <button class="ghost" onclick="shift(1)">后一天 →</button>
+    <button class="ghost" onclick="setDay(TODAY)">今天</button>
+    <button onclick="dl('sessions')">导出停留表</button>
+    <button onclick="dl('events')">导出事件流水</button>
+    <button onclick="dl('summary')">导出汇总</button>
+    <button class="ghost" onclick="resetDay()">清空当日</button>
+  </div>
+</header>
+
+<div class="banner" id="histBanner">历史日期 · 只读视图，抓拍与实时画面仍指向当前</div>
+
+<div class="kpis">
+  <div class="kpi hl"><div class="k">当前在室</div><div class="v" id="k-inside">–</div></div>
+  <div class="kpi"><div class="k">进入</div><div class="v" id="k-in">–</div></div>
+  <div class="kpi"><div class="k">离开</div><div class="v" id="k-out">–</div></div>
+  <div class="kpi"><div class="k">峰值在室</div><div class="v" id="k-peak">–</div></div>
+  <div class="kpi"><div class="k">平均停留</div><div class="v" id="k-avg">–</div></div>
+  <div class="kpi"><div class="k">配对成功率</div><div class="v" id="k-pair">–</div></div>
+  <div class="kpi"><div class="k">识别率</div><div class="v" id="k-rate">–</div></div>
+  <div class="kpi warn"><div class="k">异常出口</div><div class="v" id="k-orphan">–</div></div>
+</div>
+
+<div class="cols">
+  <div>
+    <div class="panel">
+      <h2>在室名单 <span id="inside-n"></span></h2>
+      <div class="body">
+        <table><thead><tr><th>身份</th><th>进入时间</th><th class="num">已待</th><th>入口</th></tr></thead>
+        <tbody id="inside-body"><tr><td colspan="4" class="empty">加载中...</td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>最近停留记录 <span>已配对 IN/OUT</span></h2>
+      <div class="body">
+        <table><thead><tr><th>身份</th><th>进入</th><th>离开</th><th class="num">时长</th><th>状态</th></tr></thead>
+        <tbody id="sess-body"><tr><td colspan="5" class="empty">加载中...</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <h2>每小时进出 <span id="hourSpan">当日</span></h2>
+      <div class="body">
+        <div class="bars" id="bars"></div>
+        <div class="xaxis" id="xaxis"></div>
+        <div class="legend"><span><i style="background:#97c459"></i>进入</span>
+          <span><i style="background:#f09595"></i>离开</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>在室人数曲线 <span id="curveSpan">5 分钟一档</span></h2>
+      <div class="body">
+        <div class="curve" id="curve"></div>
+        <div class="xaxis"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+        <div class="legend"><span><i style="background:#5b9dff"></i>同时在室人数</span>
+          <span id="curvePeak"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>每人汇总 <span>按总停留时长排序</span></h2>
+  <div class="body">
+    <table><thead><tr><th>身份</th><th class="num">停留次数</th><th class="num">已配对</th>
+      <th class="num">未关闭</th><th class="num">异常</th><th class="num">总停留</th>
+      <th class="num">平均停留</th><th>首次进入</th><th>最后离开</th></tr></thead>
+    <tbody id="people-body"><tr><td colspan="9" class="empty">加载中...</td></tr></tbody></table>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>事件流水 <span id="feedN">最近 25 条</span></h2>
+  <div class="body"><div class="feed grid2" id="feed"><div class="empty">暂无事件</div></div></div>
+</div>
+
+<script>
+const HOST="@HOST@";
+function p2(n){return String(n).padStart(2,'0');}
+function localDate(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());}
+const TODAY=localDate(new Date());   // 别用 toISOString：那是 UTC，早八点前会算成昨天
+let DAY="@DAY@";
+function hhmmss(ts){const d=new Date(ts*1000);return p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds());}
+function dur(s){
+  if(s===null||s===undefined) return '–';
+  s=Math.round(s);
+  if(s<60) return s+' 秒';
+  const m=Math.floor(s/60), r=s%60;
+  if(m<60) return m+' 分'+(r?(' '+r+' 秒'):'');
+  const h=Math.floor(m/60);
+  return h+' 时 '+p2(m%60)+' 分';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function pct(v){return v===null||v===undefined?'–':(v*100).toFixed(1)+'<span class="u">%</span>';}
+
+function setDay(v){
+  if(!v) return;
+  DAY=v;
+  document.getElementById('day').value=v;
+  document.getElementById('dayLabel').textContent=v;
+  document.getElementById('histBanner').classList.toggle('on', v!==TODAY);
+  const u=new URL(location.href);
+  u.searchParams.set('day',v);
+  history.replaceState(null,'',u);
+  reload(true);
+}
+function shift(n){
+  const d=new Date(DAY+'T00:00:00');
+  d.setDate(d.getDate()+n);
+  setDay(d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()));
+}
+function dl(kind){
+  location.href='/export/'+kind+'.csv?day='+DAY;
+}
+
+async function resetDay(){
+  if(!confirm('清空 '+DAY+' 的全部事件和会话记录？')) return;
+  if(!confirm('再确认一次：删掉就找不回来了（只删这一天）')) return;
+  try{
+    const r=await (await fetch('/api/reset_day?confirm=yes&day='+DAY,{method:'POST'})).json();
+    if(!r.ok){ alert('清空失败：'+(r.error||'未知原因')); return; }
+    alert(`已清空 ${r.day}：事件 ${r.events} 条，会话 ${r.sessions} 条`
+      + (r.open_left? `\n注意：还有 ${r.open_left} 个更早的会话没关闭，在室人数会显示 ${r.open_left}` : ''));
+    reload(true); loadPeople(); loadCurve();
+  }catch(e){ alert('请求出错：'+e); }
+}
+
+async function reload(force){
+  const q='?day='+DAY+(force?'&t='+Date.now():'');
+  try{
+    const st=await (await fetch('/stats.json'+q)).json();
+    document.getElementById('k-inside').textContent=st.inside;
+    document.getElementById('k-in').textContent=st.in;
+    document.getElementById('k-out').textContent=st.out;
+    document.getElementById('k-peak').textContent=st.peak_inside;
+    document.getElementById('k-avg').innerHTML=st.avg_duration_s===null?'–':
+      dur(st.avg_duration_s).replace(/([^\d\s]+)$/,'<span class="u">$1</span>');
+    document.getElementById('k-pair').innerHTML=pct(st.pair_rate);
+    document.getElementById('k-rate').innerHTML=pct(st.recognize_rate);
+    document.getElementById('k-orphan').textContent=st.orphan_out;
+    document.getElementById('inside-n').textContent=st.inside? st.inside+' 人':'空';
+    document.getElementById('hourSpan').textContent=(DAY===TODAY?'当日':DAY);
+    drawBars(st.hourly);
+    document.getElementById('beat').innerHTML='<span class="dot"></span>已同步 '+hhmmss(st.generated_at);
+
+    const r=await (await fetch('/api/recent'+q)).json();
+    const ib=document.getElementById('inside-body');
+    ib.innerHTML = r.inside.length ? r.inside.map(p=>`<tr>
+        <td>${esc(p.person)}</td><td>${hhmmss(p.enter_ts)}</td>
+        <td class="num">${dur(p.dwell_s)}</td><td>${esc(p.cam_in||'-')}</td></tr>`).join('')
+      : `<tr><td colspan="4" class="empty">${DAY===TODAY?'教室里现在没人':'当日无未关闭的会话'}</td></tr>`;
+
+    const sb=document.getElementById('sess-body');
+    const rows=r.sessions.filter(s=>s.status!=='OPEN').slice(0,10);
+    sb.innerHTML = rows.length ? rows.map(s=>`<tr>
+        <td>${esc(s.person)}</td><td>${hhmmss(s.enter_ts)}</td>
+        <td>${s.exit_ts?hhmmss(s.exit_ts):'-'}</td>
+        <td class="num">${dur(s.duration_s)}</td>
+        <td><span class="tag ${s.status==='CLOSED'?'in':'un'}">${s.status}</span></td></tr>`).join('')
+      : '<tr><td colspan="5" class="empty">还没有完成配对的记录</td></tr>';
+
+    const f=document.getElementById('feed');
+    document.getElementById('feedN').textContent='最近 '+r.events.length+' 条';
+    f.innerHTML = r.events.length ? r.events.map(e=>{
+      const isUnknown = e.person==='unknown';
+      const img = e.snap? `<img src="/snap/${encodeURIComponent(e.snap)}" loading="lazy">`
+                       : '<div class="ph"></div>';
+      return `<div class="ev">${img}<div class="t">${hhmmss(e.ts)}</div>
+        <div class="n">${esc(e.person)}${isUnknown?' <span class="tag un">陌生</span>':''}
+          <div class="s">机位 ${esc(e.cam)} · 相似度 ${e.sim==null?'-':e.sim.toFixed(2)}</div></div>
+        <span class="tag ${e.kind==='IN'?'in':'out'}">${e.kind==='IN'?'进入':'离开'}</span></div>`;
+    }).join('') : '<div class="empty">暂无事件。入口摄像头认到人就会出现在这里</div>';
+  }catch(err){
+    document.getElementById('beat').innerHTML='<span class="dot off"></span>主电脑未响应';
+  }
+}
+
+async function loadPeople(){
+  try{
+    const d=await (await fetch('/api/people?day='+DAY+'&t='+Date.now())).json();
+    const b=document.getElementById('people-body');
+    b.innerHTML = d.people.length ? d.people.map(p=>`<tr>
+        <td>${esc(p.person)}${p.person==='unknown'?' <span class="tag un">陌生</span>':''}</td>
+        <td class="num">${p.n}</td>
+        <td class="num">${p.n_closed}</td>
+        <td class="num">${p.n_open}</td>
+        <td class="num">${p.n_orphan}</td>
+        <td class="num">${p.total_s?dur(p.total_s):'–'}</td>
+        <td class="num">${p.avg_s===null?'–':dur(p.avg_s)}</td>
+        <td>${hhmmss(p.first_ts)}</td>
+        <td>${hhmmss(p.last_ts)}</td></tr>`).join('')
+      : '<tr><td colspan="9" class="empty">当日还没有会话记录</td></tr>';
+  }catch(err){}
+}
+
+async function loadCurve(){
+  try{
+    const d=await (await fetch('/api/occupancy?day='+DAY+'&t='+Date.now())).json();
+    const s=d.series||[];
+    const box=document.getElementById('curve');
+    if(!s.length){box.innerHTML='<div class="empty">暂无数据</div>';return;}
+    const W=1000,H=118,pad=6;
+    const max=Math.max(1,...s.map(p=>p.n));
+    const x=i=>s.length>1? i/(s.length-1)*W : 0;
+    const y=n=>H-pad-(n/max)*(H-pad*2);
+    let line='',area='';
+    s.forEach((p,i)=>{ line+=(i?' L':'M')+x(i).toFixed(1)+' '+y(p.n).toFixed(1); });
+    area='M0 '+H+' L'+line.slice(1)+' L'+W+' '+H+' Z';
+    box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <path d="${area}" fill="rgba(91,157,255,.22)"></path>
+      <path d="${line}" fill="none" stroke="#5b9dff" stroke-width="1.6"
+            vector-effect="non-scaling-stroke"></path></svg>`;
+    const peak=s.reduce((a,b)=>b.n>a.n?b:a,s[0]);
+    document.getElementById('curvePeak').textContent=
+      `峰值 ${peak.n} 人（${hhmmss(peak.t)}）· ${d.bin_min} 分钟一档`;
+  }catch(err){}
+}
+
+function drawBars(hourly){
+  const max=Math.max(1,...hourly.map(h=>Math.max(h.in,h.out)));
+  document.getElementById('bars').innerHTML=hourly.map(h=>{
+    const a=h.in?Math.max(3,h.in/max*100):0;
+    const b=h.out?Math.max(3,h.out/max*100):0;
+    return `<div class="bar" title="${p2(h.hour)}:00  进 ${h.in} / 出 ${h.out}">
+      <i style="height:${a}%"></i><b style="height:${b}%"></b></div>`;
+  }).join('');
+  document.getElementById('xaxis').innerHTML=hourly.map((h,i)=>
+    `<span>${i%3===0?p2(i):''}</span>`).join('');
+}
+
+document.getElementById('histBanner').classList.toggle('on', DAY!==TODAY);
+reload(true); loadPeople(); loadCurve();
+setInterval(()=>reload(false),2000);
+setInterval(loadPeople,5000);
+setInterval(loadCurve,10000);
+</script>

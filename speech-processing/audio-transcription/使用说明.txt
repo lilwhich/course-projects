@@ -1,0 +1,75 @@
+录音转文字 使用说明
+====================
+
+一、这是什么
+    一个离线运行的语音识别小工具，基于 faster-whisper。
+    把录音（mp3/m4a/wav/flac/mp4 等）转成文字，同时生成带时间轴的 srt 字幕。
+    不上传云端、不需要 API Key，联网只发生在第一次下载模型时。
+
+二、环境
+    Python 3.9+（推荐 3.11），安装时勾选 Add to PATH，启动脚本会自动找到它
+    安装依赖：
+        pip install faster-whisper "av<19"
+
+    注意 av 必须小于 19。av 19 删掉了 faster-whisper 依赖的参数，
+    装最新版会报 TypeError: open() got an unexpected keyword argument 'metadata_errors'
+
+三、模型在哪
+    脚本同目录下的 models\modelscope-faster-whisper-small（约 461 MB）。
+    首次运行自动下载，之后从 IDLE、PyCharm、命令行启动都复用同一份，
+    不会重复下载。删掉这个目录不影响程序，只是下次运行会重新下载（约一分多钟）。
+
+四、怎么用
+
+    1) 命令行带参数（最常用）
+        python 录音转文字.py "D:\我的录音\录音.m4a"
+
+    2) 批量处理整个文件夹
+        python 录音转文字.py D:\我的录音
+
+    3) 在 IDLE 或 PyCharm 里直接点运行
+        没有参数时会提示：音频文件路径（直接回车退出）
+        粘贴路径回车即可。
+
+    4) 长会议追求更准
+        python 录音转文字.py 会议.m4a --model medium
+
+    5) 现场录一段麦克风再转写（需先 pip install sounddevice numpy）
+        python 录音转文字.py --mic 60
+
+五、提示词文件（重要）
+    同目录下有个 提示词.txt，脚本启动时会自动读取它作为识别提示。
+    里面写常用的人名、班级、专业名词，能显著减少同音字错认。
+    例如把“张三”写进去，就不会再识别成“张珊”。
+    要改就直接编辑这个文件，一行中文，保存即可生效。
+    命令行传了 --prompt 时以命令行为准。
+
+六、输出在哪
+    默认输出到“音频文件所在目录”，文件名相同、后缀不同：
+        录音.m4a  ->  录音.txt（纯文字）  +  录音.srt（时间轴字幕）
+    想换位置就加：  --out "指定目录"
+
+    提示：Windows 记事本不会自动刷新已打开的文件，
+    文件被重新生成后需要关掉重开，才能看到最新内容。
+
+七、参数速查
+    --model         tiny / base / small / medium / large-v3  默认 small
+    --language      zh（中文）/ en（英文）/ auto（自动）      默认 zh
+    --device        cpu / cuda（有 NVIDIA 显卡可写 cuda）      默认 cpu
+    --prompt        提示词，覆盖 提示词.txt
+    --out           输出目录
+    --no-srt        不生成 srt 字幕
+    --no-vad        关闭静音检测
+    --mic N         录 N 秒麦克风再转写
+    --download-source  modelscope（默认，国内快）/ huggingface
+
+八、识别不准时怎么办
+    1) 先加提示词（提示词.txt 或 --prompt），同音人名、专业术语最有效；
+    2) 换更大的模型：--model medium 或 large-v3（更慢，需要更好硬件）；
+    3) 确认音频本身清晰、不是距离很远的录音；
+    4) 4~5 秒这种极短音频本来就容易错，长音频准确率会明显更高。
+
+九、输出示例
+    输入 会议录音.m4a，会在同目录生成两个文件：
+        会议录音.txt    纯文字，按段落合并，直接可读
+        会议录音.srt    标准字幕格式，可导入剪映 / Premiere / PotPlayer

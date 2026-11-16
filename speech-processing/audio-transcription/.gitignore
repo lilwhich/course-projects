@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 模型缓存，体积大，不进版本库（首次运行自动下载）
+models/
+*.part
+
+# 转写产物
+mic_recording.wav
+*.srt
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

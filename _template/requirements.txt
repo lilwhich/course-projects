@@ -1,0 +1,8 @@
+# 依赖清单：只写实际 import 到的，不粘贴 pip freeze 全量输出。
+# 版本用下限约束（>=），遇到已知不兼容的上限再写 <，例如 av<19（av 19 移除了 metadata_errors）。
+
+# 示例：
+# numpy>=1.24
+# opencv-python>=4.8
+# fastapi>=0.110
+# uvicorn>=0.27

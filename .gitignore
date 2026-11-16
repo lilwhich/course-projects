@@ -1,0 +1,22 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 运行时输出（结果图已在 assets/ 中归档，这里排除重跑产物）
+output/
+cmp/
+
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+
+# 个人敏感词表（真实姓名、学号等，只存本地）
+scripts/sensitive_words.txt
