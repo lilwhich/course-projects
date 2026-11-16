@@ -1,8 +1,8 @@
 # 课程项目合集
 
-大学在读期间各类课程项目与实验的代码与报告素材归档。
+大学在读期间课程实践与实验项目的代码、结果图归档。
 
-本仓库按学科分目录，每个项目自带独立的 README、依赖清单和结果图，可单独复现。
+本仓库按学科分目录，每个项目自带 README、依赖清单和结果图。
 
 ## 项目索引
 
@@ -50,7 +50,7 @@ python _template/new_project.py --subject computer-vision --name my-demo --title
 python scripts/check_repo.py --staged
 ```
 
-检查脚本拦截六类问题：真实姓名（按本地敏感词表比对）、内网 IP、本机绝对路径、邮箱与手机号、超过 5 MB 的入库文件、缺少 README 或依赖清单。完整流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+检查脚本的检查项：个人敏感词（真实姓名等，按本地词表比对）、内网 IP、本机绝对路径、邮箱、手机号、班级编号、私有密钥、超过 5 MB 的文件、缺 README 或缺依赖清单。完整流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 许可
 
@@ -60,4 +60,4 @@ python scripts/check_repo.py --staged
 
 ---
 
-<sub>结果图与过程图随代码一并归档，原始高分辨率素材未入库（体积原因）。</sub>
+<sub>素材与结果图为降采样或裁切后的版本，原始高分辨率素材与第三方模型未入库（体积原因）。</sub>
