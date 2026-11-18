@@ -10,6 +10,7 @@
 |---|---|---|---|
 | 计算机视觉 / 视觉识别 | 多张图片合成全景图 | Python · OpenCV · SIFT · RANSAC · 柱面投影 · 接缝搜索 | [`computer-vision/panorama-stitching`](computer-vision/panorama-stitching) |
 | 计算机视觉 / 人脸识别 | 教室在室人数统计（主从分布式） | Python · OpenCV · YuNet · SFace · FastAPI · SQLite · UDP 发现 | [`computer-vision/classroom-cv`](computer-vision/classroom-cv) |
+| 计算机视觉 / 行为识别 | 骨骼关键点人体行为识别（站/坐/走/蹲） | Python · YOLOv8-Pose · ultralytics · 时序特征 · 滑窗 · sklearn | [`computer-vision/pose-action`](computer-vision/pose-action) |
 | 语音识别 / 语音处理 | 录音转文字（离线字幕生成） | Python · faster-whisper · PyAV · VAD · ModelScope · SRT | [`speech-processing/audio-transcription`](speech-processing/audio-transcription) |
 
 ## 目录规范

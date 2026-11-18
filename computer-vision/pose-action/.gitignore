@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 虚拟环境（体积 1.4G，绝不入库）
+.venv/
+venv/
+
+# 本机专属配置：换电脑后要重新填
+camera_source.txt
+camera_rotate.txt
+
+# 检测权重：第三方文件，按 README「权重与数据」自行下载
+*.pt
+*.pth
+*.onnx
+
+# 训练产物与采集数据：体积大，可由脚本重新生成
+models/*.pkl
+data/raw/
+data/features/
+data/demo/
+
+# 运行生成的报告（reports/doc 下的配图照常入库）
+reports/confusion_*.png
+reports/report_*.png
+reports/*.xlsx
+
+# 临时测试产物
+reports/_phone_test.jpg
+reports/_ui_*.png
+reports/_test_*.png
+reports/机位_*.png
+reports/机位截图_*.png
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini

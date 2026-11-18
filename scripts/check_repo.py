@@ -55,6 +55,15 @@ RULES: list[tuple[str, re.Pattern[str]]] = [
 # 允许出现的邮箱：仓库署名用的 GitHub noreply 地址
 EMAIL_ALLOW = re.compile(r"(noreply@github\.com|@users\.noreply\.github\.com)$", re.I)
 
+# 允许出现的固定示例值：仅限文档里统一使用的通用地址，不随项目变化
+VALUE_ALLOW: dict[str, set[str]] = {
+    # 手机摄像头文档里的示例地址，全篇统一，非真实环境
+    "内网 IP": {"192.168.1.7"},
+}
+
+# 域名部分是 IP 字面量的不算邮箱（如 admin:admin@192.168.1.7:8080 这类 URL 凭据）
+IP_DOMAIN = re.compile(r"^\d{1,3}(?:\.\d{1,3}){3}$")
+
 # 扫描时跳过的文件自身
 SELF_SKIP = {"scripts/check_repo.py"}
 
@@ -208,7 +217,12 @@ def main() -> None:
             for name, pat in RULES:
                 for m in pat.finditer(line):
                     value = m.group(0)
-                    if name == "邮箱地址" and EMAIL_ALLOW.search(value):
+                    if name == "邮箱地址":
+                        if EMAIL_ALLOW.search(value):
+                            continue
+                        if IP_DOMAIN.match(value.rsplit("@", 1)[-1]):
+                            continue
+                    if value in VALUE_ALLOW.get(name, ()):
                         continue
                     hits.append((rel, lineno, name, mask(value)))
             for word in words:
